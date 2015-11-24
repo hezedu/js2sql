@@ -1,0 +1,29 @@
+{
+  "name": "js2sql",
+  "version": "0.0.1",
+  "main": "index",
+  "keywords": [
+    "JS",
+    "Array",
+    "Object",
+	"sql",
+	"mysql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hezedu/js2sql.git"
+  },
+
+  "author": {
+    "name": "hezedu"
+  },
+  "dependencies": {
+    "mysql":""
+  },
+  "licenses": "MIT",
+  "email": "hezedu@hotmail.com",
+  "description": "JS Array Object to sql",
+  "bugs": {
+    "url": "https://github.com/hezedu/js2sql/issues"
+  }
+}
