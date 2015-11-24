@@ -4,5 +4,5 @@ module.exports = {  //mysql 数据库
     //connectTimeout:1000*60*60*24,
     user: 'root',
     password: 'root',
-    database: 'js2sql_test'
+    database: 'test'
   }

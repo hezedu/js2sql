@@ -35,11 +35,11 @@ exports.obj_to_sql = function obj_to_sql(obj) {
 exports.obj_to_create_table = function(obj){
   var keys = Object.keys(obj);
   for(var i = 0 , len = keys.length; i < len; i++){
-    var v = keys[i],o_v = obj[v];
-    if(typeof o_v === 'string'){
-      keys[i] = v + ' ' + o_v;
+    var k = keys[i],v = obj[k];
+    if(typeof v === 'string'){
+      keys[i] = k + ' ' + v;
     }else{
-
+      keys[i] = k + ' ' + v.type + ' ' + (v.constraint || '');
     }
   }
 
