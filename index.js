@@ -1,5 +1,6 @@
 //libs 
-exports.obj_to_sql = function(data) {
+
+function obj_to_sql(data) {
   var names = [];
   var values = [];
   for (var i in data) {
@@ -37,6 +38,38 @@ exports.obj_to_sql = function(data) {
   }
 }
 
+function __first_serialize(data) {
+  var arr = [];
+  for (var i = 0, len = data.name.length; i < len; i++) {
+    arr.push(data.name[i] + '=' + data.value[i]);
+  }
+  return arr;
+}
+
+function _serialize(data) {
+  var arr = [];
+  for (var i = 0, len = data.name.length; i < len; i++) {
+    arr.push(data.name[i] + '=' + data.value[i]);
+  }
+  return arr.join(',');
+}
+
+function _index_serialize(data, arr) {
+  var _data = {};
+  for (var i = 0, len = arr.length; i < len; i++) {
+    var k = arr[i];
+    _data[k] = data[k];
+  }
+  _data = obj_to_sql(_data);
+  var index_sql = __first_serialize(_data);
+  return index_sql.join(' AND ');
+}
+
+exports.obj_to_sql = obj_to_sql;
+
+
+
+///////////////////////////////////////////////////
 exports.obj_to_insert_into_sql = function(Connection, list) {
   var name = '';
   var valueArr = [];
@@ -62,21 +95,7 @@ exports.obj_to_insert_sql = function(Connection, data) {
   return 'INSERT ' + Connection + ' (' + sql.name.join(',') + ') VALUES (' + sql.value.join(',') + ')';
 }
 
-exports.__first_serialize = function(data) {
-  var arr = [];
-  for (var i = 0, len = data.name.length; i < len; i++) {
-    arr.push(data.name[i] + '=' + data.value[i]);
-  }
-  return arr;
-}
 
-exports._serialize = function(data) {
-  var arr = [];
-  for (var i = 0, len = data.name.length; i < len; i++) {
-    arr.push(data.name[i] + '=' + data.value[i]);
-  }
-  return arr.join(',');
-}
 
 
 
@@ -102,19 +121,10 @@ exports.obj_to_select_sql = function(Connection, data, primary_key) {
   return 'SELECT ' + sql + ' FROM ' + Connection + where;
 }
 
-exports.index_serialize = function(data, arr) {
-  var _data = {};
-  for (var i = 0, len = arr.length; i < len; i++) {
-    var k = arr[i];
-    _data[k] = data[k];
-  }
-  _data = obj_to_sql(_data);
-  var index_sql = __first_serialize(_data);
-  return index_sql.join(' AND ');
-}
+
 
 exports.obj_to_select_sql_by_index = function(Connection, data, index_keys) {
-  var index_sql = index_serialize(data, index_keys);
+  var index_sql = _index_serialize(data, index_keys);
   var pre_sql = Object.keys(data).join(",");
   var where = ' WHERE ' + index_sql;
   return 'SELECT ' + pre_sql + ' FROM ' + Connection + where;
